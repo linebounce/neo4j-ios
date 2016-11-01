@@ -14,7 +14,7 @@ typealias RequestErrorBlock   = (_ error: NSError, _ response: URLResponse) -> V
 let TheoNetworkErrorDomain: String  = "com.theo.network.error"
 let TheoAuthorizationHeader: String = "Authorization"
 
-public struct AllowedHTTPMethods {
+open struct AllowedHTTPMethods {
   
     static var GET: String    = "GET"
     static var PUT: String    = "PUT"
@@ -121,7 +121,7 @@ class Request {
         self.init(url: URL(), credentials: (username: String(), password: String()), additionalHeaders: nil)
     }
   
-    // MARK: Public Methods
+    // MARK: open Methods
 
     /// Method makes a HTTP GET request
     ///

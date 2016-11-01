@@ -73,7 +73,7 @@ class Session {
     }
     fileprivate let sessionDelegate: TheoTaskSessionDelegate = TheoTaskSessionDelegate()
 
-    // MARK: Public properties
+    // MARK: open properties
 
     var session: URLSession
     var sessionDelegateQueue: OperationQueue = OperationQueue.main

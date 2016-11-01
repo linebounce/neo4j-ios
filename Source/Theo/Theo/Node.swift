@@ -8,50 +8,50 @@
 
 import Foundation
 
-let TheoNodeExtensions: String                 = "extensions"
-let TheoNodePagedTraverse: String              = "paged_traverse"
-let TheoNodeLabels: String                     = "labels"
-let TheoNodeOutGoingRelationships: String      = "outgoing_relationships"
-let TheoNodeTraverse: String                   = "traverse"
-let TheoNodeAllTypedRelationships: String      = "all_typed_relationships"
-let TheoNodeProperty: String                   = "property"
-let TheoNodeAllRelationships: String           = "all_relationships"
-let TheoNodeSelf: String                       = "self"
+let TheoNodeExtensions:                 String = "extensions"
+let TheoNodePagedTraverse:              String = "paged_traverse"
+let TheoNodeLabels:                     String = "labels"
+let TheoNodeOutGoingRelationships:      String = "outgoing_relationships"
+let TheoNodeTraverse:                   String = "traverse"
+let TheoNodeAllTypedRelationships:      String = "all_typed_relationships"
+let TheoNodeProperty:                   String = "property"
+let TheoNodeAllRelationships:           String = "all_relationships"
+let TheoNodeSelf:                       String = "self"
 let TheoNodeOutGoingTypedRelationships: String = "outgoing_typed_relationships"
-let TheoNodeProperties: String                 = "properties"
-let TheoNodeIncomingRelationships: String      = "incoming_relationships"
+let TheoNodeProperties:                 String = "properties"
+let TheoNodeIncomingRelationships:      String = "incoming_relationships"
 let TheoNodeIncomingTypedRelationships: String = "incoming_typed_relationships"
-let TheoNodeCreateRelationship: String         = "create_relationship"
-let TheoNodeData: String                       = "data"
-let TheoNodeMetaData: String                   = "metadata"
+let TheoNodeCreateRelationship:         String = "create_relationship"
+let TheoNodeData:                       String = "data"
+let TheoNodeMetaData:                   String = "metadata"
 
-public struct NodeMeta: CustomStringConvertible {
+open struct NodeMeta: CustomStringConvertible {
     
-    let extensions: [String: AnyObject]
-    let page_traverse: String
-    let labels: String
-    let outgoing_relationships: String
-    let traverse: String
-    let all_typed_relationships: String
-    let property: String
-    let all_relationships: String
-    let node_self: String
+    let extensions:                   [String: AnyObject]
+    let page_traverse:                String
+    let labels:                       String
+    let outgoing_relationships:       String
+    let traverse:                     String
+    let all_typed_relationships:      String
+    let property:                     String
+    let all_relationships:            String
+    let node_self:                    String
     let outgoing_typed_relationships: String
-    let properties: String
-    let incoming_relationships: String
+    let properties:                   String
+    let incoming_relationships:       String
     let incoming_typed_relationships: String
-    let create_relationship: String
-    let data: [String: AnyObject]
-    let metadata: [String: AnyObject]
+    let create_relationship:          String
+    let data:                         [String: AnyObject]
+    let metadata:                     [String: AnyObject]
 
-    public func nodeID() -> String {
+    open func nodeID() -> String {
 
         let pathComponents: Array<String> = self.node_self.components(separatedBy: "/")
 
         return pathComponents.last!
     }
     
-    public init(dictionary: Dictionary<String, AnyObject>!) {
+    open init(dictionary: Dictionary<String, AnyObject>!) {
         
         self.extensions                     = dictionary[TheoNodeExtensions]                    as! Dictionary
         self.page_traverse                  = dictionary[TheoNodePagedTraverse]                 as! String
@@ -71,19 +71,19 @@ public struct NodeMeta: CustomStringConvertible {
         self.metadata                       = dictionary[TheoNodeMetaData]                      as! Dictionary
     }
     
-    public var description: String {
+    open var description: String {
         return "Extensions: \(self.extensions), page_traverse \(self.page_traverse), labels \(self.labels), outgoing_relationships \(self.outgoing_relationships), traverse \(self.traverse), all_typed_relationships \(self.all_typed_relationships), all_typed_relationships \(self.all_typed_relationships), property \(self.property), all_relationships \(self.all_relationships), self \(self.node_self), outgoing_typed_relationships \(self.outgoing_typed_relationships), properties \(self.properties), incoming_relationships \(self.incoming_relationships), incoming_typed_relationships \(self.incoming_typed_relationships), create_relationship \(self.create_relationship), data \(self.data), metadata \(self.metadata), nodeID \(self.nodeID())"
     }
 }
 
 open class Node {
 
-    // MARK: Private Setters and Public Getters
+    // MARK: Private Setters and open Getters
 
     fileprivate (set) var nodeData: [String:AnyObject] = [String:AnyObject]()
     fileprivate (set) var labels: [String] = [String]()
 
-    // MARK: Public Properties
+    // MARK: open Properties
     
     open var meta: NodeMeta? = nil {
 
@@ -101,7 +101,7 @@ open class Node {
     ///
     /// - parameter Dictionary<String,AnyObject>?: data
     /// - returns: Node
-    public required init(data: Dictionary<String,AnyObject>?) {
+    open required init(data: Dictionary<String,AnyObject>?) {
         
         if let dictionaryData: [String:AnyObject] = data {
 
@@ -118,7 +118,7 @@ open class Node {
     /// calls init(data:) with the param value as nil
     ///
     /// - returns: Node
-    public convenience init() {
+    open convenience init() {
         self.init(data: nil)
     }
     
@@ -186,7 +186,7 @@ open class Node {
 
 extension Node: CustomStringConvertible {
     
-    public var description: String {
+    open var description: String {
         
         var returnString: String = ""
             

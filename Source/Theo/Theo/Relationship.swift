@@ -8,34 +8,34 @@
 
 import Foundation
 
-let RelationshipDataFromNodeKey = "fromNode"
-let RelationshipDataToNodeKey   = "toNode"
-let RelationshipDataTypeKey     = "type"
+fileprivate let RelationshipDataFromNodeKey = "fromNode"
+fileprivate let RelationshipDataToNodeKey   = "toNode"
+fileprivate let RelationshipDataTypeKey     = "type"
 
-let TheoRelationshipExtensionsKey: String = "extensions"
-let TheoRelationshipStartKey: String      = "start"
-let TheoRelationshipPropertyKey: String   = "property"
-let TheoRelationshipSelfKey: String       = "self"
-let TheoRelationshipPropertiesKey: String = "properties"
-let TheoRelationshipTypeKey: String       = "type"
-let TheoRelationshipEndKey: String        = "end"
-let TheoRelationshipDataKey: String       = "data"
-let TheoRelationshipMetaDataKey: String   = "metadata"
+fileprivate let TheoRelationshipExtensionsKey: String = "extensions"
+fileprivate let TheoRelationshipStartKey: String      = "start"
+fileprivate let TheoRelationshipPropertyKey: String   = "property"
+fileprivate let TheoRelationshipSelfKey: String       = "self"
+fileprivate let TheoRelationshipPropertiesKey: String = "properties"
+fileprivate let TheoRelationshipTypeKey: String       = "type"
+fileprivate let TheoRelationshipEndKey: String        = "end"
+fileprivate let TheoRelationshipDataKey: String       = "data"
+fileprivate let TheoRelationshipMetaDataKey: String   = "metadata"
 
-public struct RelationshipMeta: CustomStringConvertible {
+open struct RelationshipMeta: CustomStringConvertible {
 
-    let extensions: [String: AnyObject]
-    let start: String
-    let property: String
+    let extensions:        [String: AnyObject]
+    let start:             String
+    let property:          String
     let relationship_self: String
-    let properties: String
-    let type: String //TODO: add custom function so it will return RelationshipType
-    let end: String
-    let data: [String: AnyObject]
+    let properties:        String
+    let type:              String //TODO:              add custom function so it will return RelationshipType
+    let end:               String
+    let data:              [String: AnyObject]
 
-    public let metadata: [String: AnyObject]
+    open let metadata: [String: AnyObject]
     
-    public func relationshipID() -> String {
+    open func relationshipID() -> String {
         
         let pathComponents: Array<String> = self.relationship_self.components(separatedBy: "/")
         
@@ -55,32 +55,32 @@ public struct RelationshipMeta: CustomStringConvertible {
         self.metadata           = dictionary[TheoRelationshipMetaDataKey]   as! Dictionary
     }
     
-    public var description: String {
+    open var description: String {
         return "Extensions: \(self.extensions), start \(self.start), property \(self.property), self \(self.relationship_self), properties \(self.properties), type \(self.type), end \(self.end), data \(self.data), relationshipID \(self.relationshipID()), metadata \(self.metadata)"
     }
 }
 
-public struct RelationshipType {
+open struct RelationshipType {
 
-    public static var KNOWS: String   = "KNOWS"
-    public static var know: String    = "know"
-    public static var FRIENDS: String = "FRIENDS"
-    public static var likes: String   = "likes"
-    public static var has: String     = "has"
-    public static var knows: String   = "knows"
-    public static var LOVES: String   = "LOVES"
+    open static var KNOWS:   String = "KNOWS"
+    open static var know:    String = "know"
+    open static var FRIENDS: String = "FRIENDS"
+    open static var likes:   String = "likes"
+    open static var has:     String = "has"
+    open static var knows:   String = "knows"
+    open static var LOVES:   String = "LOVES"
 }
 
-public struct RelationshipDirection {
+open struct RelationshipDirection {
     
-    public static var ALL: String = "all"
-    public static var IN: String  = "in"
-    public static var OUT: String = "out"
+    open static var ALL: String = "all"
+    open static var IN:  String = "in"
+    open static var OUT: String = "out"
 }
 
 open class Relationship {
 
-    // MARK: Public Properties
+    // MARK: open Properties
     
     // TODO: MUST find a better way to handle this
     // This is a very unfortunate flag that I need to come back ripping out, but
@@ -167,7 +167,7 @@ open class Relationship {
     ///
     /// - parameter Dictionary<String,AnyObject>: data
     /// - returns: Relationship
-    public required init(data: Dictionary<String,AnyObject>?) {
+    open required init(data: Dictionary<String,AnyObject>?) {
         
         self.relationshipCreateMeta = [String:AnyObject]()
         self.relationshipData       = [String:AnyObject]()
@@ -188,7 +188,7 @@ open class Relationship {
     /// calls init(data:) with the param value as nil
     ///
     /// - returns: Relationship
-    public convenience init() {
+    open convenience init() {
         self.init(data: nil)
     }
     
@@ -246,7 +246,7 @@ open class Relationship {
 
 extension Relationship: CustomStringConvertible {
     
-    public var description: String {
+    open var description: String {
         
         var returnString: String = ""
         

@@ -8,36 +8,36 @@
 
 import Foundation
 
-let TheoParsingQueueName: String           = "com.theo.client"
-let TheoDBMetaExtensionsKey: String        = "extensions"
-let TheoDBMetaNodeKey: String              = "node"
-let TheoDBMetaNodeIndexKey: String         = "node_index"
+let TheoParsingQueueName:           String = "com.theo.client"
+let TheoDBMetaExtensionsKey:        String = "extensions"
+let TheoDBMetaNodeKey:              String = "node"
+let TheoDBMetaNodeIndexKey:         String = "node_index"
 let TheoDBMetaRelationshipIndexKey: String = "relationship_index"
-let TheoDBMetaExtensionsInfoKey: String    = "extensions_info"
+let TheoDBMetaExtensionsInfoKey:    String = "extensions_info"
 let TheoDBMetaRelationshipTypesKey: String = "relationship_types"
-let TheoDBMetaBatchKey: String             = "batch"
-let TheoDBMetaCypherKey: String            = "cypher"
-let TheoDBMetaIndexesKey: String           = "indexes"
-let TheoDBMetaConstraintsKey: String       = "constraints"
-let TheoDBMetaTransactionKey: String       = "transaction"
-let TheoDBMetaNodeLabelsKey: String        = "node_labels"
-let TheoDBMetaNeo4JVersionKey: String      = "neo4j_version"
+let TheoDBMetaBatchKey:             String = "batch"
+let TheoDBMetaCypherKey:            String = "cypher"
+let TheoDBMetaIndexesKey:           String = "indexes"
+let TheoDBMetaConstraintsKey:       String = "constraints"
+let TheoDBMetaTransactionKey:       String = "transaction"
+let TheoDBMetaNodeLabelsKey:        String = "node_labels"
+let TheoDBMetaNeo4JVersionKey:      String = "neo4j_version"
 
-public struct DBMeta: CustomStringConvertible {
+open struct DBMeta: CustomStringConvertible {
   
-    let extensions: [String: AnyObject] //= [String: AnyObject]()
-    let node: String                    //= ""
-    let node_index: String              //= ""
-    let relationship_index: String      //= ""
-    let extensions_info: String         //= ""
-    let relationship_types: String      //= ""
-    let batch: String                   //= ""
-    let cypher: String                  //= ""
-    let indexes: String                 //= ""
-    let constraints: String             //= ""
-    let transaction: String             //= ""
-    let node_labels: String             //= ""
-    let neo4j_version: String           //= ""
+    let extensions:         [String: AnyObject]
+    let node:               String
+    let node_index:         String
+    let relationship_index: String
+    let extensions_info:    String
+    let relationship_types: String
+    let batch:              String
+    let cypher:             String
+    let indexes:            String
+    let constraints:        String
+    let transaction:        String
+    let node_labels:        String
+    let neo4j_version:      String
 
     init(dictionary: Dictionary<String, AnyObject>!) {
 
@@ -56,14 +56,14 @@ public struct DBMeta: CustomStringConvertible {
         self.neo4j_version          = dictionary[TheoDBMetaNeo4JVersionKey]         as! String
     }
   
-    public var description: String {
+    open var description: String {
         return "Extensions: \(self.extensions) node: \(self.node) node_index: \(self.node_index) relationship_index: \(self.relationship_index) extensions_info : \(self.extensions_info), relationship_types: \(self.relationship_types) batch: \(self.batch) cypher: \(self.cypher) indexes: \(self.indexes) constraints: \(self.constraints) transaction: \(self.transaction) node_labels: \(self.node_labels) neo4j_version: \(self.neo4j_version)"
     }
 }
 
 open class Client {
   
-    // MARK: Public properties
+    // MARK: open properties
 
     open let baseURL: String
     open let username: String?
@@ -71,25 +71,21 @@ open class Client {
 
     open var parsingQueue: DispatchQueue = DispatchQueue(label: TheoParsingQueueName, attributes: DispatchQueue.Attributes.concurrent)
     
-    public typealias TheoMetaDataCompletionBlock = (_ metaData: DBMeta?, _ error: NSError?) -> Void
-    public typealias TheoNodeRequestCompletionBlock = (_ node: Node?, _ error: NSError?) -> Void
-    public typealias TheoNodeRequestDeleteCompletionBlock = (_ error: NSError?) -> Void
-    public typealias TheoNodeRequestRelationshipCompletionBlock = (_ relationship: Relationship?, _ error: NSError?) -> Void
-    public typealias TheoRelationshipRequestCompletionBlock = (_ relationships:Array<Relationship>, _ error: NSError?) -> Void
-    public typealias TheoRawRequestCompletionBlock = (_ response: AnyObject?, _ error: NSError?) -> Void
-    public typealias TheoTransactionCompletionBlock = (_ response: Dictionary<String, AnyObject>, _ error: NSError?) -> Void
-    public typealias TheoCypherQueryCompletionBlock = (_ cypher: Cypher?, _ error: NSError?) -> Void
+    open typealias TheoMetaDataCompletionBlock                = (_ metaData: DBMeta?, _ error: NSError?) -> Void
+    open typealias TheoNodeRequestCompletionBlock             = (_ node: Node?, _ error: NSError?) -> Void
+    open typealias TheoNodeRequestDeleteCompletionBlock       = (_ error: NSError?) -> Void
+    open typealias TheoNodeRequestRelationshipCompletionBlock = (_ relationship: Relationship?, _ error: NSError?) -> Void
+    open typealias TheoRelationshipRequestCompletionBlock     = (_ relationships:Array<Relationship>, _ error: NSError?) -> Void
+    open typealias TheoRawRequestCompletionBlock              = (_ response: AnyObject?, _ error: NSError?) -> Void
+    open typealias TheoTransactionCompletionBlock             = (_ response: Dictionary<String, AnyObject>, _ error: NSError?) -> Void
+    open typealias TheoCypherQueryCompletionBlock             = (_ cypher: Cypher?, _ error: NSError?) -> Void
 
 
     // MARK: Lazy properties
 
     lazy fileprivate var credentials: (username: String, password: String)? = {
-        
-        if (self.username != nil && self.password != nil) {
-            return (username: self.username!, password: self.password!)
-        }
-        
-        return nil
+        guard let username = self.username, let password = self.password else { return nil }
+        return (username: username, password: password)
     }()
   
     // MARK: Constructors
@@ -103,7 +99,7 @@ open class Client {
     /// - returns: Client
     
     // TODO: Move the user/password to a tuple since you can't have one w/o the other
-    required public init(baseURL: String, user: String?, pass: String?) {
+    required open init(baseURL: String, user: String?, pass: String?) {
 
         assert(!baseURL.isEmpty, "Base url must be set")
         
@@ -136,7 +132,7 @@ open class Client {
     ///
     /// - parameter String: baseURL
     /// - returns: Client
-    convenience public init(baseURL: String) {
+    convenience open init(baseURL: String) {
         self.init(baseURL: baseURL, user: nil, pass: nil)
     }
 
@@ -146,11 +142,11 @@ open class Client {
     ///
     /// - parameter String: baseURL
     /// :throws: Exception
-    convenience public init() {
+    convenience open init() {
         self.init(baseURL: "", user: nil, pass: nil)
     }
   
-    // MARK: Public Methods
+    // MARK: open Methods
   
     /// Fetches meta information for the Neo4j instance
     ///

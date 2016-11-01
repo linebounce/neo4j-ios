@@ -11,7 +11,7 @@ import Foundation
 let TheoCypherColumns: String = "columns"
 let TheoCypherData: String    = "data"
 
-public struct CypherMeta: CustomStringConvertible {
+open struct CypherMeta: CustomStringConvertible {
     
     let columns: Array<String>
     let data: Array<AnyObject>
@@ -22,7 +22,7 @@ public struct CypherMeta: CustomStringConvertible {
         self.data    = dictionary[TheoCypherData]    as! Array
     }
     
-    public var description: String {
+    open var description: String {
         return "Columns: \(columns), data \(data)"
     }
 }
@@ -32,7 +32,7 @@ open class Cypher {
     var meta: CypherMeta?
     open fileprivate(set) var data: Array<Dictionary<String, AnyObject>> = Array<Dictionary<String, AnyObject>>()
     
-    public required init(metaData: Dictionary<String, Array<AnyObject>>?) {
+    open required init(metaData: Dictionary<String, Array<AnyObject>>?) {
     
         if let dictionaryData: [String:[AnyObject]] = metaData {
 
@@ -57,7 +57,7 @@ open class Cypher {
         }
     }
     
-    public convenience init() {
+    open convenience init() {
         self.init(metaData: nil)
     }
 }
@@ -66,7 +66,7 @@ open class Cypher {
 
 extension Cypher: CustomStringConvertible {
     
-    public var description: String {
+    open var description: String {
         
         var returnString: String = ""
             
